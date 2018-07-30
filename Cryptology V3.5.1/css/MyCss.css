@@ -664,19 +664,20 @@ ul li {
 .content{
 	position:absolute;
 	top:40%;
-	width:1180px;
+	width:100%;
 	overflow:hidden;
-	margin:4px auto 0;
+	margin:0px;
 }
 .bd{
 	width:1180px;
 	overflow:hidden;
+	margin:0 auto;
 }
 .member_list{
 	height:280px;
 	width:1180px;
 	overflow:hidden;
-	margin:0px 3% 0px 3%;
+	margin:0px;
 	padding:1.8%;
 }
 .member_list_item{

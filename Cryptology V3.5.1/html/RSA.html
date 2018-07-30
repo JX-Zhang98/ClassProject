@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<title>Cryptography—RSA</title>
+	<script type="text/javascript" src="../JS/JS_MenuFixed.js"></script>
+	
+	<link rel="stylesheet" href="../css/MyCss.css">
+	<!--标签页小图标-->
+	<LINK href="../picture/logo_black.png" type=image/x-icon rel="shortcut icon" />
+<head>
+<body>
+	<!--背景图片-->
+    <div id="back">
+    	<img src="../picture/suo2.jpg" width="100%" height="100%"/>
+	</div>
+	<!-- 导航栏 -->
+	<ul id="mynav" style="font-size:1em">
+		<li id="big"><a href="../index.html">CRYPTOLOGY</a></li>
+		<li><a href="intro.html">About cryptography</a></li>
+		<li><a href="Classical.html">Classical cryptography</a></li>
+		<li><a href="Modern.html" class="selected1">Modern cryptography</a></li>
+		<li><a href="Practice.html">Practice</a></li>
+		<li><a href="Team.html">About us</a></li>
+	</ul>
+	<div id="subnav">
+		<ul>
+			<li><a href="AES.html">AES</a></li>
+			<li><a href="DES.html">DES</a></li>
+			<li><a href="#" class="selected">RSA</a></li>
+			<li><a href="md5.html">MD5</a></li>
+		</ul>
+	</div>
+	
+	<div id="div2">
+		<p>
+			<a href="Login.html">Login</a> 
+			|
+			<a href="Register.html">Register</a> 
+		</p>
+	</div>
+
+	<div class="warp clear">
+		<div class="page_left">
+			<article>
+			<h1 class="art_title">RSA</h1>
+			<div class="art_content" id="art_content">
+				<h2>Introduction</h2>
+				<p>RSA is one of the first practical public-key cryptosystems and is widely used for secure data transmission. In such a cryptosystem, the encryption key is public and different from the decryption key which is kept secret (private). In RSA, this asymmetry is based on the practical difficulty of factoring the product of two large prime numbers, the factoring problem. RSA is made of the initial letters of the surnames of Ron Rivest, Adi Shamir, and Leonard Adleman, who first publicly described the algorithm in 1978. Clifford Cocks, an English mathematician working for the UK intelligence agency GCHQ, had developed an equivalent system in 1973, but it was not declassified until 1997.</p>
+				<p>RSA is a relatively slow algorithm, and because of this it is less commonly used to directly encrypt user data. More often, RSA passes encrypted shared keys for symmetric key cryptography which in turn can perform bulk encryption-decryption operations at much higher speed.</p>
+				<br/>
+				<hr/>
+				<div class="image_left_section">
+					<img src="../picture/RSA/RSA_creater.jpg">
+					<div>
+						<h2>History</h2>
+						<p>The idea of an asymmetric public-private key cryptosystem is attributed to Whitfield Diffie and Martin Hellman, who published the concept in 1976. </p>
+						<p>Ron Rivest, Adi Shamir, and Leonard Adleman (R.S.A.) at MIT made several attempts over the course of a year to create a one-way function that is hard to invert. Rivest and Shamir, as computer scientists, proposed many potential functions while Adleman, as a mathematician, was responsible for finding their weaknesses. They tried many approaches including "knapsack-based" and "permutation polynomials". For a time they thought it was impossible for what they wanted to achieve due to contradictory requirements. In April 1977, they spent Passover at the house of a student and drank a good deal of Manischewitz wine before returning to their home at around midnight.</p>
+					</div>
+				</div>
+				<hr/>
+				<h2>Operation</h2>
+				<p>The RSA algorithm involves four steps: key generation, key distribution, encryption and decryption.</p>
+				<p>A basic principle behind RSA is the observation that it is practical to find three very large positive integers e, d and n such that with modular exponentiation for all integer m:</p>
+				<p>and that even knowing e and n or even m it can be extremely difficult to find d.</p>
+				<p>Additionally, for some operations it is convenient that the order of the two exponentiations can be changed and that this relation also implies:</p>
+				<p>RSA involves a public key and a private key. The public key can be known by everyone and is used for encrypting messages. The intention is that messages encrypted with the public key can only be decrypted in a reasonable amount of time using the private key. The public key is represented by the integers n and e; and, the private key, by the integer d (although n is also used during the decryption process; so, it might be considered a part of the private key, too). m represents the message (previously prepared with a certain technique explained below).</p>
+				<br/>
+				<hr/>
+				<h2>Security</h2>
+				<p>The security of the RSA cryptosystem is based on two mathematical problems: the problem of factoring large numbers and the RSA problem. Full decryption of an RSA ciphertext is thought to be infeasible on the assumption that both of these problems are hard, i.e., no efficient algorithm exists for solving them. Providing security against partial decryption may require the addition of a secure padding scheme.</p>
+				<p>The RSA problem is defined as the task of taking eth roots modulo a composite n: recovering a value m such that c ≡ me (mod n), where (n, e) is an RSA public key and c is an RSA ciphertext. Currently the most promising approach to solving the RSA problem is to factor the modulus n. With the ability to recover prime factors, an attacker can compute the secret exponent d from a public key (n, e), then decrypt c using the standard procedure. To accomplish this, an attacker factors n into p and q, and computes lcm(p − 1, q − 1) which allows the determination of d from e. No polynomial-time method for factoring large integers on a classical computer has yet been found, but it has not been proven that none exists. See integer factorization for a discussion of this problem.</p>
+				<p>Multiple polynomial quadratic sieve (MPQS) can be used to factor the public modulus n. The time taken to factor 128-bit and 256-bit n on a desktop computer (Processor: Intel Dual-Core i7-4500U 1.80GHz) are respectively 2 seconds and 35 minutes.</p>
+				<br/>
+			</div>
+		</article>
+		
+	</div>
+	<div class="page_right" style="text-align:left">
+		<div id="Catalog_box">
+		</div>
+	</div>
+</div>
+
+	<!--回到顶部-->
+	<div id="pic">
+		<a href="#mynav">
+			<img
+				src="../picture/upup10.png"
+				border="0"
+				alt="gotop"
+				width="60px"/>
+		</a>
+	</div>
+		
+
+	<!-- 右侧菜单 -->
+	<div class="rightNav">
+		<a href="md5.html" style="right: -110px;"><em>1</em>MD5</a>
+		<a href="Caesar.html" style="right: -110px;"><em>2</em>Caesar</a>
+		<a href="Base64.html" style="right: -110px;"><em>3</em>Base64</a>
+		<a href="AES.html" style="right: -110px;"><em>4</em>AES</a>
+		<a href="DES.html" style="right: -110px;"><em>5</em>DES</a>
+		<a href="RSA.html" style="right: -110px;"><em>6</em>RSA</a>
+	</div>
+
+<script type="text/javascript" src="../JS/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../JS/CateNav.js"></script>
+<script type="text/javascript">
+$(function(){	
+	$.CateNav('#art_content','#Catalog_box');//第一个参数为存放文章内容的box,第二个参数为存放生成目录的box	
+})
+</script>
+<script type="text/javascript">
+	var btb=$(".rightNav");
+	var tempS;
+	$(".rightNav").hover(function(){
+			var thisObj = $(this);
+			tempS = setTimeout(function(){
+			thisObj.find("a").each(function(i){
+				var tA=$(this);
+				setTimeout(function(){ tA.animate({right:"0"},300);},50*i);
+			});
+		},200);
+
+	},function(){
+		if(tempS){ clearTimeout(tempS); }
+		$(this).find("a").each(function(i){
+			var tA=$(this);
+			setTimeout(function(){ tA.animate({right:"-110"},300,function(){
+			});},50*i);
+		});
+
+	});
+	var isIE6 = !!window.ActiveXObject&&!window.XMLHttpRequest;
+	if( isIE6 ){ $(window).scroll(function(){ btb.css("top", $(document).scrollTop()+100) }); }
+</script>
+
+</body>	
+</html>

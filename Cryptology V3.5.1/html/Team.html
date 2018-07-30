@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Team</title>
+	<link rel="stylesheet" type="text/css" href="../css/MyCss.css">
+	<!-- 左上小图标 -->
+	<link href="../picture/logo_black.png" type="image/x-icon" rel="shortcut icon" />
+	<script src="../js/Team.js"></script>
+</head>
+
+<body>
+	<div id="back">
+		<img src="../picture/hack3.jpg" width="100%" height="100%">
+	</div>
+	
+	<!-- 导航栏 -->
+	<ul id="mynav">
+		<li id="big"><a href="../index.html">CRYPTOLOGY</a></li>
+		<li><a href="intro.html">About cryptography</a></li>
+		<li><a href="Classical.html">Classical cryptography</a></li>
+		<li><a href="Modern.html">Modern cryptography</a></li>
+		<li><a href="Practice.html">Practice</a></li>
+		<li><a href="#" class="selected">About us</a></li>
+	</ul>
+	<div id="div2">
+		<p>
+			<a href="Login.html">Login</a> 
+			|
+			<a href="Register.html">Register</a> 
+		</p>
+	</div>
+	
+	<h1 class="teamh1">We are Hijack</h1>
+	<h2 class="teamh2">Hacking is the easiest way to get super power</h2>
+	<div class="content">
+	<div class="bd">
+		<ul class="member_list">
+			<li class="member_list_item">
+				<div class="col-sm-6">
+					<div class="ih-item circle effect1">
+					<a onmouseover="toggle(this)" onmouseout="toggle(this)" href="#">
+						<div class="spinner" id="thuai">
+						</div>
+						<div class="img">
+							<img alt="img" src="../picture/team-zhangjiaxi2.jpg" name="zhang"  onmouseover="mouseOver()" onmouseout="mouseOut()">
+						</div>
+						<div class="info" id="huai">
+							<div class="info-back">
+								<h3>Zhang Jiaxi</h3>
+								<p>PM/Programmer</p>
+								<p>Talk a little and do less~Code badly but love coding forever~</p>
+							</div>
+						</div>
+					</a>
+					</div>
+ 
+				</div>
+			</li>
+			<li class="member_list_item">
+				<div class="col-sm-6">
+					<div class="ih-item circle effect1">
+					<a onmouseover="toggle1(this)" onmouseout="toggle1(this)" href="#">
+						<div class="spinner" id="thuai">
+						</div>
+						<div class="img">
+							<img src="../picture/team-xurunbang1.jpg" alt="img">
+						</div>
+						<div class="info" id="huai">
+							<div class="info-back">
+								<h3>Xu Runbang</h3>
+								<p>UI designer/Programmer</p>
+								<p>Have red genes in BIT,have a olive green soul in national defense!</p>
+							</div>
+						</div>
+					</a>
+					</div>
+ 
+				</div>
+			</li>
+			<li class="member_list_item">
+				<div class="col-sm-6">
+					<div class="ih-item circle effect1">
+					<a onmouseover="toggle2(this)" onmouseout="toggle2(this)" href="#">
+						<div class="spinner" id="thuai">
+						</div>
+						<div class="img">
+							<img src="../picture/team_yangqixuan2.jpg" alt="img">
+						</div>
+						<div class="info" id="huai">
+							<div class="info-back">
+								<h3>Yang Qixuan</h3>
+								<p>TD/Programmer</p>
+								<p>Salt content is too high.<br/>Not edible.</p>
+							</div>
+						</div>
+					</a>
+					</div>
+ 
+				</div>
+			</li>
+			<li class="member_list_item">
+				<div class="col-sm-6">
+					<div class="ih-item circle effect1">
+					<a onmouseover="toggle3(this)" onmouseout="toggle3(this)" href="#">
+						<div class="spinner" id="thuai">
+						</div>
+						<div class="img">
+							<img src="../picture/team_mayizhan1.jpg" alt="img">
+						</div>
+						<div class="info" id="huai">
+							<div class="info-back">
+								<h3>Ma Yizhan</h3>
+								<p>CIO/Web Editore</p>
+								<p>The country was killed and killed in order to live and die.</p>
+							</div>
+						</div>
+					</a>
+					</div>
+ 
+				</div>
+			</li>
+		</ul>
+		
+		
+		<!---------底部网页版权--------->
+		<div id="bottomToolbar" >
+			<span>
+				Copyright © 2017 Hijack All rights reserved
+				|
+				<a href="Contact us.html">Contact us</a>
+			</span>
+		</div>
+		<!------------------>
+		
+	<script>
+    function js_method()
+    {
+        var obj=document.getElementsByTagName("div");
+
+        for(i=0;i<obj.length;i++){
+             if(obj[i].id=="thuai")
+            {
+                obj[i].style.webkitTransform="rotate(180deg)";
+                obj[i].style.moztransform="rotate(180deg)";
+                obj[i].style.mstransform="rotate(180deg)";
+                obj[i].style.otransform="rotate(180deg)";
+                obj[i].style.transform="rotate(180deg)";
+            }
+               if(obj[i].id=="huai"){
+                obj[i].style.opacity=1;
+            }
+        }
+    }
+	</script>
+</body>
+</html>

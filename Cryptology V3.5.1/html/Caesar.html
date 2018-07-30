@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Cryptography—Caesar</title>
+	<script type="text/javascript" src="../JS/JS_MenuFixed.js"></script>
+	<script type="text/javascript" src="../JS/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../JS/CateNav.js"></script>
+	<link rel="stylesheet" href="../css/MyCss.css">
+	<!-- 左上小图标 -->
+	<link href="../picture/logo_black.png" type="image/x-icon" rel="shortcut icon" />
+</head>
+
+<body>
+	<!--背景图片-->
+    <div id="back">
+    	<img src="../picture/suo9.jpg" width="100%" height="100%"/>
+	</div>
+
+		<!--导航条-->
+		
+	<ul id="mynav" style="font-size:1em">
+		<li id="big"><a href="../index.html">CRYPTOLOGY</a></li>
+		<li><a href="intro.html">About cryptography</a></li>
+		<li><a href="Classical.html" class="selected1">Classical cryptography</a></li>
+		<li><a href="Modern.html">Modern cryptography</a></li>
+		
+		<li><a href="Practice.html">Practice</a></li>
+		<li><a href="Team.html">About us</a></li>
+	</ul>
+	
+	<div id="subnav">
+		<ul>
+			
+			<li><a href="Base64.html">Base64</a></li>
+			<li><a href="#" class="selected">Caesar</a></li>
+		</ul>
+	</div>
+	
+	<div id="div2">
+		<p>
+			<a href="Login.html">Login</a> 
+			|
+			<a href="Register.html">Register</a> 
+		</p>
+	</div>
+		
+<!--div id="container" style="background-color:#00FF00;width:1500px;"-->
+	<div class="warp clear">
+		<div class="page_left">
+		<article>
+			<h1 class="art_title">Caesar cipher</h1>
+			<div class="art_content" id="art_content">
+			<h2>Introduction</h2>
+			<p>In cryptography, a Caesar cipher, also known as Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a left shift of 3, D would be replaced by A, E would become B, and so on. The method is named after Julius Caesar, who used it in his private correspondence.</p>
+			<p>The encryption step performed by a Caesar cipher is often incorporated as part of more complex schemes, such as the Vigenère cipher, and still has modern application in the ROT13 system. As with all single-alphabet substitution ciphers, the Caesar cipher is easily broken and in modern practice offers essentially no communication security.</p>
+			<img class="insert" src="../picture/Caesar/pic0.png">
+			<hr/>
+			<h2>Example</h2>
+			<p>The transformation can be represented by aligning two alphabets; the cipher alphabet is the plain alphabet rotated left or right by some number of positions. For instance, here is a Caesar cipher using a left rotation of three places, equivalent to a right shift of 23 (the shift parameter is used as the key):</p>
+			<pre>Plain:    ABCDEFGHIJKLMNOPQRSTUVWXYZ
+Cipher:   XYZABCDEFGHIJKLMNOPQRSTUVW</pre>
+			<hr/>
+			<div class="image_left_section">
+				<img src="../picture/Caesar/pic1.JPG">
+				<div class="textarea">
+					<h2>History and usage</h2>
+					<p>The Caesar cipher is named after Julius Caesar, who, according to Suetonius, used it with a shift of three to protect messages of military significance. While Caesar's was the first recorded use of this scheme, other substitution ciphers are known to have been used earlier.</p>
+					<p>"If he had anything confidential to say, he wrote it in cipher, that is, by so changing the order of the letters of the alphabet, that not a word could be made out. If anyone wishes to decipher these, and get at their meaning, he must substitute the fourth letter of the alphabet, namely D, for A, and so with the others."<br/>
+					— Suetonius, Life of Julius Caesar 56</p>
+					<p>Evidence exists that Julius Caesar also used more complicated systems, and one writer, Aulus Gellius, refers to a (now lost) treatise on his ciphers:<br/>
+					"There is even a rather ingeniously written treatise by the grammarian Probus concerning the secret meaning of letters in the composition of Caesar's epistles."<br/>
+					— Aulus Gellius, Attic Nights 17.9.1–5</p>
+					<p>In the 19th century, the personal advertisements section in newspapers would sometimes be used to exchange messages encrypted using simple cipher schemes.</p>
+					<p>Caesar ciphers can be found today in children's toys such as secret decoder rings. </p>
+				</div>
+			</div>
+			<hr/>
+			<h2>Breaking the cipher</h2>
+			<p>The Caesar cipher can be easily broken even in a ciphertext-only scenario. Two situations can be considered:</p>
+			<ol>
+				<li>an attacker knows (or guesses) that some sort of simple substitution cipher has been used, but not specifically that it is a Caesar scheme;</li>
+				<li>an attacker knows that a Caesar cipher is in use, but does not know the shift value.</li>
+			</ol>
+			<p>In the first case, the cipher can be broken using the same techniques as for a general simple substitution cipher, such as frequency analysis or pattern words.</p>
+			<p>In the second instance, breaking the scheme is even more straightforward. Since there are only a limited number of possible shifts (26 in English), they can each be tested in turn in a brute force attack. One way to do this is to write out a snippet of the ciphertext in a table of all possible shifts – a technique sometimes known as "completing the plain component". </p>
+			<p>Another brute force approach is to match up the frequency distribution of the letters. By graphing the frequencies of letters in the ciphertext, and by knowing the expected distribution of those letters in the original language of the plaintext, a human can easily spot the value of the shift by looking at the displacement of particular features of the graph. This is known as frequency analysis. 
+			<br/>
+			<img class="insert" src="../picture/Caesar/pic2.png">
+			<br/>
+			<p>With the Caesar cipher, encrypting a text multiple times provides no additional security. This is because two encryptions of, say, shift A and shift B, will be equivalent to a single encryption with shift A + B. In mathematical terms, the set of encryption operations under each possible key forms a group under composition.</p>
+			</div>
+		</article>
+		</div>
+		<div class="page_right" style="text-align:left">
+			<div id="Catalog_box">
+			</div>
+	</div>
+	</div>
+	
+<!--回到顶部-->
+	<div id="pic">
+		<a href="#mynav">
+			<img
+				src="../picture/upup10.png"
+				border="0"
+				alt="gotop"
+				width="60px"/>
+		</a>
+	</div>
+
+    <!--script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script-->
+    
+    <!-- 右侧菜单 -->
+	<div class="rightNav">
+		<a href="md5.html" style="right: -110px;"><em>1</em>MD5</a>
+		<a href="Caesar.html" style="right: -110px;"><em>2</em>Caesar</a>
+		<a href="Base64.html" style="right: -110px;"><em>3</em>Base64</a>
+		<a href="AES.html" style="right: -110px;"><em>4</em>AES</a>
+		<a href="DES.html" style="right: -110px;"><em>5</em>DES</a>
+		<a href="RSA.html" style="right: -110px;"><em>6</em>RSA</a>
+	</div>
+	
+	<script type="text/javascript">
+$(function(){	
+	$.CateNav('#art_content','#Catalog_box');//第一个参数为存放文章内容的box,第二个参数为存放生成目录的box	
+})
+</script>
+	<script type="text/javascript">
+	var btb=$(".rightNav");
+	var tempS;
+	$(".rightNav").hover(function(){
+			var thisObj = $(this);
+			tempS = setTimeout(function(){
+			thisObj.find("a").each(function(i){
+				var tA=$(this);
+				setTimeout(function(){ tA.animate({right:"0"},300);},50*i);
+			});
+		},200);
+
+	},
+	function(){
+		if(tempS){ clearTimeout(tempS); }
+		$(this).find("a").each(function(i){
+			var tA=$(this);
+			setTimeout(function(){ tA.animate({right:"-110"},300,function(){
+			});},50*i);
+		});
+
+	});
+	var isIE6 = !!window.ActiveXObject&&!window.XMLHttpRequest;
+	if( isIE6 ){ $(window).scroll(function(){ btb.css("top", $(document).scrollTop()+100) }); }
+</script>
+</body>
+
+</html>

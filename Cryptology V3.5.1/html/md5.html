@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Cryptography—MD5</title>
+	<script type="text/javascript" src="../JS/JS_MenuFixed.js"></script>
+	<script type="text/javascript" src="../JS/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../JS/CateNav.js"></script>
+	<link rel="stylesheet" href="../css/MyCss.css">
+	<!-- 左上小图标 -->
+	<link href="../picture/logo_black.png" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+	<!--背景图片-->
+    <div id="back">
+    	<img src="../picture/suo7.jpg" width="100%" height="100%"/>
+	</div>
+    <!-- 导航栏 -->
+	<ul id="mynav" style="font-size:1em">
+		<li id="big"><a href="../index.html">CRYPTOLOGY</a></li>
+		<li><a href="intro.html">About cryptography</a></li>
+		<li><a href="Classical.html">Classical cryptography</a></li>
+		<li><a href="Modern.html" class="selected1">Modern cryptography</a></li>
+		<li><a href="Practice.html">Practice</a></li>
+		<li><a href="Team.html">About us</a></li>
+	</ul>
+	<div id="subnav">
+		<ul>
+			<li><a href="AES.html">AES</a></li>
+			<li><a href="DES.html">DES</a></li>
+			<li><a href="RSA.html">RSA</a></li>
+			<li><a href="#" class="selected">MD5</a></li>
+		</ul>
+	</div>
+	
+	<div id="div2">
+		<p>
+			<a href="Login.html">Login</a> 
+			|
+			<a href="Register.html">Register</a> 
+		</p>
+	</div>
+
+<div class="warp clear">
+	<div class="page_left">
+		<article>
+			<h1 class="art_title">Md5</h1>
+			
+			<div class="art_content" id="art_content">
+				<h2>Introduction</h2>
+				<p>The MD5 algorithm is a widely used hash function producing a 128-bit hash value. Although MD5 was initially designed to be used as a cryptographic hash function, it has been found to suffer from extensive vulnerabilities. It can still be used as a checksum to verify data integrity, but only against unintentional corruption.</p>
+				<p>Like most hash functions, MD5 is neither encryption nor encoding. It can be cracked by brute-force attack and suffers from extensive vulnerabilities as detailed in the security section below.</p>
+				<p>MD5 was designed by Ronald Rivest in 1991 to replace an earlier hash function MD4. The source code in RFC 1321 contains a "by attribution" RSA license. The abbreviation "MD" stands for "Message Digest." </p>
+				<p>The security of the MD5 has been severely compromised, with its weaknesses having been exploited in the field, most infamously by the Flame malware in 2012. The CMU Software Engineering Institute considers MD5 essentially "cryptographically broken and unsuitable for further use". Despite this known vulnerability, MD5 remains in use.</p>
+				<br/>
+				<hr/>
+				<h2>Algorithm and Example</h2>
+				<p>MD5 processes a variable-length message into a fixed-length output of 128 bits. The input message is broken up into chunks of 512-bit blocks (sixteen 32-bit words); the message is padded so that its length is divisible by 512. The padding works as follows: first a single bit, 1, is appended to the end of the message. This is followed by as many zeros as are required to bring the length of the message up to 64 bits fewer than a multiple of 512. The remaining bits are filled up with 64 bits representing the length of the original message, modulo 264. </p>
+				<p>The main MD5 algorithm operates on a 128-bit state, divided into four 32-bit words, denoted A, B, C, and D. These are initialized to certain fixed constants. The main algorithm then uses each 512-bit message block in turn to modify the state. The processing of a message block consists of four similar stages, termed rounds; each round is composed of 16 similar operations based on a non-linear function F, modular addition, and left rotation. Figure 1 illustrates one operation within a round. There are four possible functions; a different one is used in each round:</p>
+				<img class="insert" src="../picture/MD5.png"/>
+				<p>Plain:    The quick brown fox jumps over the lazy dog</p>
+				<p>Cipher:   e4d909c290d0fb1ca068ffaddf22cbd0</p>				
+				<br/>
+				<hr/>
+				<h2>History and Cryptanalysis</h2>
+				<p>MD5 is one in a series of message digest algorithms designed by Professor Ronald Rivest of MIT (Rivest, 1992). When analytic work indicated that MD5's predecessor MD4 was likely to be insecure, Rivest designed MD5 in 1991 as a secure replacement. (Hans Dobbertin did indeed later find weaknesses in MD4.) </p>
+				<p>In 1993, Den Boer and Bosselaers gave an early, although limited, result of finding a "pseudo-collision" of the MD5 compression function; that is, two different initialization vectors that produce an identical digest. </p>
+				<p>In 1996, Dobbertin announced a collision of the compression function of MD5 (Dobbertin, 1996). While this was not an attack on the full MD5 hash function, it was close enough for cryptographers to recommend switching to a replacement, such as SHA-1 or RIPEMD-160. </p>
+				<p>On 1 March 2005, Arjen Lenstra, Xiaoyun Wang, and Benne de Weger demonstrated construction of two X.509 certificates with different public keys and the same MD5 hash value, a demonstrably practical collision.</p>
+				<p>Various MD5-related RFC errata have been published. In 2009, the United States Cyber Command used an MD5 hash value of their mission statement as a part of their official emblem. </p>
+				<p>On 24 December 2010, Tao Xie and Dengguo Feng announced the first published single-block (512-bit) MD5 collision.</p>
+				<p>In 2011 an informational RFC 6151 was approved to update the security considerations in MD5 and HMAC-MD5. </p>
+				<br/>
+				<hr/>
+				<h2>Applications</h2>
+				<p>MD5 digests have been widely used in the software world to provide some assurance that a transferred file has arrived intact. For example, file servers often provide a pre-computed MD5 (known as md5sum) checksum for the files, so that a user can compare the checksum of the downloaded file to it. Most unix-based operating systems include MD5 sum utilities in their distribution packages; Windows users may use the included PowerShell function "Get-FileHash", install a Microsoft utility, or use third-party applications. Android ROMs also use this type of checksum.</p>
+				<img class="insert" src="../picture/MD5-2.png"/>
+				<p>As it is easy to generate MD5 collisions, it is possible for the person who created the file to create a second file with the same checksum, so this technique cannot protect against some forms of malicious tampering. In some cases, the checksum cannot be trusted (for example, if it was obtained over the same channel as the downloaded file), in which case MD5 can only provide error-checking functionality: it will recognize a corrupt or incomplete download, which becomes more likely when downloading larger files.</p>
+				<p>Historically, MD5 has been used to store a one-way hash of a password, often with key stretching. Due to the weaknesses described in the Security section, NIST does not include MD5 in their list of recommended hashes for password storage. </p>
+				<p>MD5 is also used in the field of electronic discovery, in order to provide a unique identifier for each document that is exchanged during the legal discovery process. This method can be used to replace the Bates stamp numbering system that has been used for decades during the exchange of paper documents. As above, this usage should be discouraged due to the ease of collision attacks.</p>
+				<br/>
+				<hr/>
+				<h2>Breaking the cipher</h2>
+				<p>A collision attack exists that can find collisions within seconds on a computer with a 2.6 GHz Pentium 4 processor (complexity of 224.1). Further, there is also a chosen-prefix collision attack that can produce a collision for two inputs with specified prefixes within hours, using off-the-shelf computing hardware (complexity 239)The ability to find collisions has been greatly aided by the use of off-the-shelf GPUs.</p>
+				<p>In 2005, researchers were able to create pairs of PostScript documents and X.509 certificates with the same hash. Later that year, MD5's designer Ron Rivest wrote that "md5 and sha1 are both clearly broken (in terms of collision-resistance)".</p>
+				<p>On 30 December 2008, a group of researchers announced at the 25th Chaos Communication Congress how they had used MD5 collisions to create an intermediate certificate authority certificate that appeared to be legitimate when checked by its MD5 hash.</p>
+			</div>
+		</article>
+		
+	</div>
+	<div class="page_right" style="text-align:left">
+		<div id="Catalog_box">
+		</div>
+	</div>
+</div>
+
+<!--回到顶部-->
+	<div id="pic">
+		<a href="#mynav">
+			<img
+				src="../picture/upup10.png"
+				border="0"
+				alt="gotop"
+				width="60px"/>
+		</a>
+	</div>
+		
+
+	<!-- 右侧菜单 -->
+	<div class="rightNav">
+		<a href="md5.html" style="right: -110px;"><em>1</em>MD5</a>
+		<a href="Caesar.html" style="right: -110px;"><em>2</em>Caesar</a>
+		<a href="Base64.html" style="right: -110px;"><em>3</em>Base64</a>
+		<a href="AES.html" style="right: -110px;"><em>4</em>AES</a>
+		<a href="DES.html" style="right: -110px;"><em>5</em>DES</a>
+		<a href="RSA.html" style="right: -110px;"><em>6</em>RSA</a>
+	</div>
+
+<script type="text/javascript" src="../JS/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../JS/CateNav.js"></script>
+<script type="text/javascript">
+$(function(){	
+	$.CateNav('#art_content','#Catalog_box');//第一个参数为存放文章内容的box,第二个参数为存放生成目录的box	
+})
+</script>
+<script type="text/javascript">
+	var btb=$(".rightNav");
+	var tempS;
+	$(".rightNav").hover(function(){
+			var thisObj = $(this);
+			tempS = setTimeout(function(){
+			thisObj.find("a").each(function(i){
+				var tA=$(this);
+				setTimeout(function(){ tA.animate({right:"0"},300);},50*i);
+			});
+		},200);
+
+	},function(){
+		if(tempS){ clearTimeout(tempS); }
+		$(this).find("a").each(function(i){
+			var tA=$(this);
+			setTimeout(function(){ tA.animate({right:"-110"},300,function(){
+			});},50*i);
+		});
+
+	});
+	var isIE6 = !!window.ActiveXObject&&!window.XMLHttpRequest;
+	if( isIE6 ){ $(window).scroll(function(){ btb.css("top", $(document).scrollTop()+100) }); }
+</script>
+
+</body>	
+</html>

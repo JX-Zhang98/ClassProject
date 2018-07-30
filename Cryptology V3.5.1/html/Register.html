@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>cryptology-register</title>
+	<link rel="stylesheet" href="../css/MyCss.css">
+	<!-- 左上小图标 -->
+	<link href="../picture/logo_black.png" type="image/x-icon" rel="shortcut icon" />
+	<script src="../js/login.js"></script>
+</head>
+
+<body>
+	<div id="back">
+		<img src="../picture/register_back3.png" width="100%" height="100%" />
+	</div>
+	
+	<!-- 导航栏 -->
+	<ul id="mynav">
+		<li id="big"><a href="../index.html">CRYPTOLOGY</a></li>
+		<li><a href="intro.html">About cryptography</a></li>
+		<li><a href="Classical.html">Classical cryptography</a></li>
+		<li><a href="Modern.html">Modern cryptography</a></li>
+		<li><a href="Practice.html">Practice</a></li>
+		<li><a href="Team.html">About us</a></li>
+	</ul>
+	<div id="div2">
+		<p>
+			<a href="Login.html">Login</a> 
+			|
+			<a href="#" class="selected">Register</a> 
+		</p>
+	</div>
+	
+	<!-- 信息登入 -->
+	<div class="infor_back">
+	<div class="information">
+		<form action="">
+		<fieldset>
+			<legend>Register</legend>
+			<div id="personal">
+				<table>
+					<tr>
+						<td class="left"><input class="form-control" type="text" placeholder="Username" name="username" size="30"><br/>
+						<td class="right"><span id = "namejudge"></span></td>
+					</tr>
+					<tr>
+						<td class="left"><input class="form-control" type="password" placeholder="Password" name="firstpass" size="30" id="psd" onBlur="check_psd()"><br/>
+						<td class="right"><span id = "psdjudge"></span></td>
+					</tr>
+					<tr>
+						<td class="left"><input class="form-control" type="password"  placeholder="Confirm Password" name="secondpass" size="30" id="confirmpsd" onBlur="confirm_psd()"><br/>
+						<td class="right"><span id = "tpsdjudge"></span></td>
+					</tr>
+					<tr>
+						<td class="left"><input class="form-control" type="text" placeholder="E-mail" name="email" size="30" id="mail" onBlur="check_mail()"><br/>
+						<td class="right"><span id = "mailjudge"></span></td>
+					</tr>
+				</table>
+				<input type="radio" name="sex" id="male" value="Male" class="sex">
+				<label for="male">Male</label>
+				<input type="radio" name="sex" id="female" value="Female" checked="checked" class="sex">
+				<label for="female">Female</label>
+				<br/>
+				<!--地址，下拉表单-->
+				<select name="address" style="color:black">
+					<option value="Choose" style="color:gray" selected>Address</option>
+					<option value="Beijing">Beijing</option>
+					<option value="Shanghai">Shanghai</option>
+					<option value="Tianjin">Tianjin</option>
+					<option value="Chungking">Chungking</option>
+					<option value="Hebei">Hebei</option>
+					<option value="Shanxi">Shanxi</option>
+					<option value="Liaoning">Liaoning</option>
+					<option value="Jilin">Jilin</option>
+					<option value="Heilongjiang">Heilongjiang</option>
+					<option value="Jiangsu">Jiangsu</option>
+					<option value="Zhejiang">Zhejiang</option>
+					<option value="Anhui">Anhui</option>
+					<option value="Fujian">Fujian</option>
+					<option value="Jiangxi">Jiangxi</option>
+					<option value="Shandong">Shandong</option>
+					<option value="Henan">Henan</option>
+					<option value="Hubei">Hubei</option>
+					<option value="Hunan">Hunan</option>
+					<option value="Guangdong">Guangdong</option>
+					<option value="Hainan">Hainan</option>
+					<option value="Heilongjiang">Heilongjiang</option>
+					<option value="Guizhou">Guizhou</option>
+					<option value="Yunnan">Yunnan</option>
+					<option value="Shaanxi">Shaanxi</option>
+					<option value="Gansu">Gansu</option>
+					<option value="Qinghai">Qinghai</option>
+					<option value="Inner Mongolia">Inner Mongolia</option>
+					<option value="Guangxi">Guangxi</option>
+					<option value="Ningxia">Ningxia</option>
+					<option value="Sinkiang">Sinkiang</option>
+					<option value="Tibet">Tibet</option>
+				</select>
+			</div>
+		</fieldset>
+		<p>Verification code: <input type="text" name="code"><br/></p>
+		<div>
+			<a href="../index.html"><input id="button" type="button" value="Submit"/></a>
+			<br/>
+		</div>
+		</form>
+	</div>
+	</div>
+	
+		<!---------底部网页版权--------->
+		<div id="bottomToolbar" >
+			<span>
+				Copyright © 2017 Hijack All rights reserved
+				|
+				<a href="Contact us.html">Contact us</a>
+			</span>
+		</div>
+		<!------------------>
+</body>
+</html>

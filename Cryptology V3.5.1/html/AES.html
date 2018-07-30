@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Cryptography—AES</title>
+	<script type="text/javascript" src="../JS/JS_MenuFixed.js"></script>
+	
+	<link rel="stylesheet" href="../css/MyCss.css">
+	<!-- 左上小图标 -->
+	<LINK href="../picture/logo_black.png" type=image/x-icon rel="shortcut icon" />
+</head>
+
+<body>
+	<!--background-->
+    <div id="back">
+    	<img src="../picture/1.jpg" width="100%" height="100%"/>
+	</div>
+	
+	<!-- 导航栏 -->
+	<ul id="mynav" style="font-size:1em">
+		<li id="big"><a href="../index.html">CRYPTOLOGY</a></li>
+		<li><a href="intro.html">About cryptography</a></li>
+		<li><a href="Classical.html">Classical cryptography</a></li>
+		<li><a href="Modern.html" class="selected1">Modern cryptography</a></li>
+		
+		<li><a href="Practice.html">Practice</a></li>
+		<li><a href="Team.html">About us</a></li>
+	</ul>
+	<div id="subnav">
+		<ul>
+			<li><a href="#" class="selected">AES</a></li>
+			<li><a href="DES.html">DES</a></li>
+			<li><a href="RSA.html">RSA</a></li>
+			<li><a href="md5.html">MD5</a></li>
+		</ul>
+	</div>
+	
+	<div id="div2">
+		<p>
+			<a href="Login.html">Login</a> 
+			|
+			<a href="Register.html">Register</a> 
+		</p>
+	</div>
+  
+	<div class="warp clear">
+		<div class="page_left">
+			<article>
+			<h1 class="art_title">AES</h1>
+			<div class="art_content" id="art_content">
+			<!------------------------------------------------------------------------------------------------>
+			<h2 id="int">Description of the cipher</h2>
+			<p>The Advanced Encryption Standard (AES), also known by its original name Rijndael is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.</p>
+
+			<p>AES is based on a design principle known as a substitution-permutation network, a combination of both substitution and permutation, and is fast in both software and hardware.Unlike its predecessor DES, AES does not use a Feistel network. AES is a variant of Rijndael which has a fixed block size of 128 bits, and a key size of 128, 192, or 256 bits. By contrast, the Rijndael specification per se is specified with block and key sizes that may be any multiple of 32 bits, with a minimum of 128 and a maximum of 256 bits.</p>
+			<p>AES operates on a 4 × 4 column-major order matrix of bytes, termed the state, although some versions of Rijndael have a larger block size and have additional columns in the state. Most AES calculations are done in a particular finite field.</p>
+			<p>For instance, if there are 16 bytes, b<sub>0</sub>,b<sub>1</sub>...b<sub>15</sub>, these bytes are represented as this matrix:</p>
+			<img class="insert" src="../picture/AES/pic5.png">
+
+			<p>The key size used for an AES cipher specifies the number of repetitions of transformation rounds that convert the input, called the plaintext, into the final output, called the ciphertext. The number of cycles of repetition are as follows:</p>
+			<ul>
+				<li>10 cycles of repetition for 128-bit keys.</li>
+				<li>12 cycles of repetition for 192-bit keys.</li>
+				<li>14 cycles of repetition for 256-bit keys.</li>
+			</ul>
+			<p>Each round consists of several processing steps, each containing four similar but different stages, including one that depends on the encryption key itself. A set of reverse rounds are applied to transform ciphertext back into the original plaintext using the same encryption key.</p>
+			<hr/>
+			<!---------------------------------------------------------------------------------->
+			<h2 id="Exa">High-level description of the algorithm</h2>
+			<img class="insert" src="../picture/AES/pic0.png">
+			<ol>
+				<li>KeyExpansions—round keys are derived from the cipher key using Rijndael's key schedule. AES requires a separate 128-bit round key block for each round plus one more.</li>
+				<li>InitialRound
+					<ol>
+					<li><tt>AddRoundKey</tt>—each byte of the state is combined with a block of the round key using bitwise xor.</li>
+					</ol>
+				</li>
+				<li>Rounds
+					<ol>
+					<li><tt>SubBytes</tt>—a non-linear substitution step where each byte is replaced with another according to a lookup table.</li>
+					<li><tt>ShiftRows</tt>—a transposition step where the last three rows of the state are shifted cyclically a certain number of steps.</li>
+					<li><tt>MixColumns</tt>—a mixing operation which operates on the columns of the state, combining the four bytes in each column.</li>
+					<li><tt>AddRoundKey</tt></li>
+					</ol>
+				</li>
+				<li>Final Round (no <tt>MixColumns</tt>)
+					<ol>
+					<li><tt>SubBytes</tt></li>
+					<li><tt>ShiftRows</tt></li>
+					<li><tt>AddRoundKey</tt>.</li>
+					</ol>
+				</li>
+			</ol>
+			<hr/>
+			<!----------------------------------------------------------------------------------->
+			<div class="image_left_section">
+				<img src="../picture/AES/creater.jpg">
+				<div class="textarea">
+				<h2 id="His">History and usage</h2>
+				<p>AES is a subset of the Rijndael cipher developed by two Belgian cryptographers, Vincent Rijmen and Joan Daemen, who submitted a proposal to NIST during the AES selection process. Rijndael is a family of ciphers with different key and block sizes.</p>
+				<p>For AES, NIST selected three members of the Rijndael family, each with a block size of 128 bits, but three different key lengths: 128, 192 and 256 bits.</p>
+				<p>AES has been adopted by the U.S. government and is now used worldwide. It supersedes the Data Encryption Standard (DES), which was published in 1977. The algorithm described by AES is a symmetric-key algorithm, meaning the same key is used for both encrypting and decrypting the data.
+				In the United States, AES was announced by the NIST as U.S. FIPS PUB 197 (FIPS 197) on November 26, 2001.</p>
+				<p>AES became effective as a federal government standard on May 26, 2002, after approval by the Secretary of Commerce. AES is included in the ISO/IEC 18033-3 standard. AES is available in many different encryption packages, and is the first (and only) publicly accessible cipher approved by the National Security Agency (NSA) for top secret information when used in an NSA approved cryptographic module.</p>
+				</div>
+			</div>
+			<!-------------------------------------------------------------------------------------->
+			<hr/>
+			<h2 id="Bre">Security analysis</h2>
+			<p>Until May 2009, the only successful published attacks against the full AES were side-channel attacks on some specific implementations. The National Security Agency (NSA) reviewed all the AES finalists, including Rijndael, and stated that all of them were secure enough for U.S. Government non-classified data. </p>
+			<p>AES has 10 rounds for 128-bit keys, 12 rounds for 192-bit keys, and 14 rounds for 256-bit keys.By 2006, the best known attacks were on 7 rounds for 128-bit keys, 8 rounds for 192-bit keys, and 9 rounds for 256-bit keys.</p>
+			</div>
+		</article>
+		
+	</div>
+	<div class="page_right" style="text-align:left">
+		<div id="Catalog_box">
+		</div>
+	</div>
+</div>
+	
+	<!--回到顶部-->
+	<div id="pic">
+		<a href="#mynav">
+			<img
+				src="../picture/upup10.png"
+				border="0"
+				alt="gotop"
+				width="60px"/>
+		</a>
+	</div>
+	
+	<!-- 右侧菜单 -->
+	<div class="rightNav">
+		<a href="md5.html" style="right: -110px;"><em>1</em>MD5</a>
+		<a href="Caesar.html" style="right: -110px;"><em>2</em>Caesar</a>
+		<a href="Base64.html" style="right: -110px;"><em>3</em>Base64</a>
+		<a href="AES.html" style="right: -110px;"><em>4</em>AES</a>
+		<a href="DES.html" style="right: -110px;"><em>5</em>DES</a>
+		<a href="RSA.html" style="right: -110px;"><em>6</em>RSA</a>
+	</div>
+
+<script type="text/javascript" src="../JS/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../JS/CateNav.js"></script>
+<script type="text/javascript">
+$(function(){	
+	$.CateNav('#art_content','#Catalog_box');//第一个参数为存放文章内容的box,第二个参数为存放生成目录的box	
+})
+</script>
+<script type="text/javascript">
+	var btb=$(".rightNav");
+	var tempS;
+	$(".rightNav").hover(function(){
+			var thisObj = $(this);
+			tempS = setTimeout(function(){
+			thisObj.find("a").each(function(i){
+				var tA=$(this);
+				setTimeout(function(){ tA.animate({right:"0"},300);},50*i);
+			});
+		},200);
+
+	},function(){
+		if(tempS){ clearTimeout(tempS); }
+		$(this).find("a").each(function(i){
+			var tA=$(this);
+			setTimeout(function(){ tA.animate({right:"-110"},300,function(){
+			});},50*i);
+		});
+
+	});
+	var isIE6 = !!window.ActiveXObject&&!window.XMLHttpRequest;
+	if( isIE6 ){ $(window).scroll(function(){ btb.css("top", $(document).scrollTop()+100) }); }
+</script>
+
+</body>
+</html>

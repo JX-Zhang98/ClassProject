@@ -16,6 +16,7 @@ Databs::~Databs()
 {
     db.close();
 }
+
 QString Databs::md5(QString sou)
 {
     QString md5Psd;
@@ -47,14 +48,15 @@ bool Databs::addUser(QString username, QString password, QString  realname, QStr
     if (query.exec((const QString)commond))
     {
         qDebug() << "register success!";
+        return true;
     }
     else
     {
         qDebug() << "register fail!\nPlease retry.";
+        return false;
     }
 
 }
-
 
 // check if the username exists when registing or logining in
 bool Databs::checkUserExist(QString username)
@@ -82,7 +84,7 @@ bool Databs::checkPass(QString username, QString password)
     QString commond = "select username from account where username='";
     commond += username;
     commond += "'";
-    query.exec(commond);
+    query.exec((const QString)commond);
     bool exist=0;
     while (query.next())
     {
@@ -113,17 +115,67 @@ bool Databs::checkPass(QString username, QString password)
     return false;
 }
 
+//reset the password
+bool Databs::reSetPass(QString name, QString newPass)
+{
+    QSqlQuery query;
+    QString commond;
+    QString pass = md5(newPass+md5(newPass));
+    commond = "updata account set password = '";
+    commond += pass + "' ";
+    commond += "where username='"+name+"'";
+    return query.exec((const QString)commond);
+}
+
+//get the security question
+QString Databs::getQuestion(QString name)
+{
+    QSqlQuery query;
+    QString commond;
+    commond = "select question1 from account where username='";
+    commond += name+"'";
+    query.exec((const QString)commond);
+    while(query.next())
+    {
+        return query.value(0).toString();
+    }
+    return "error";
+}
+
+//check ans of question
+bool Databs::checkAns(QString name, QString ans)
+{
+    QSqlQuery query;
+    QString commond;
+    commond = "select ans1 from account where username='";
+    commond += name+"'";
+    while(query.next())
+    {
+        if(ans.compare(query.value(0).toString()))
+            return false;
+        return true;
+    }
+    return false;
+}
 
 //set question to protect the account, number range(1, 2, 3)
-bool Databs::setQuestion(int number, QString question, QString ans)
+bool Databs::setQuestion(QString question, QString ans, QString name)
 {
-
+    QSqlQuery query;
+    QString commond;
+    commond = "updata account set question1 = '";
+    commond += question+"' ";
+    commond += "where username='"+name+"'";
+    bool step1 = query.exec((const QString)commond);
+    commond = "updata account set ans1 = '";
+    commond += ans+"' ";
+    commond += "where username='"+name+"'";
+    bool step2 = query.exec((const QString)commond);
+    return (step1&&step2);
 }
 
 
 //change information of user
-bool Databs::setInfo(QString columnn, QString info)
-{
+//bool Databs::setInfo(QString columnn, QString info){}
 
-}
 

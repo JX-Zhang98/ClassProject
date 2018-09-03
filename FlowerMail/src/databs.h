@@ -7,7 +7,6 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlDriver>
-
 #include <QCryptographicHash>
 #include <QByteArray>
 class Databs
@@ -22,11 +21,17 @@ public:
     //checks if the username and password match
     bool checkPass(QString username, QString password);
     //set question to protect the account, number range(1, 2, 3)
-    bool setQuestion(int number, QString question, QString ans);
-    //change information of user
-    bool setInfo(QString columnn, QString info);
+    bool setQuestion(QString question, QString ans, QString name);
+    //change information of user, this is done in setting , password included
+    //bool setInfo(QString columnn, QString info);
     //trans a string to md5
     QString md5(QString sou);
+    //reset pass
+    bool reSetPass(QString name, QString newPass);
+    //get the security question
+    QString getQuestion(QString name);
+    //check ans of question
+    bool checkAns(QString name, QString ans);
 private:
     QSqlDatabase db;
     //QSqlQuery query;

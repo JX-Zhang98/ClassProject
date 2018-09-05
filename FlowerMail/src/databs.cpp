@@ -282,12 +282,28 @@ QList<Mail> Databs::receiveMail(QString username, int startWith, int num)
 {
     int count=0;
     QSqlQuery query;
+    QSqlQuery rela;
     QList<Mail> retval;
     query.prepare("select * from mail where receiver = :receiver");
     query.bindValue(":receiver", username);
     query.exec();
     while(query.next())
     {
+        int id=query.value(0).toInt();
+        QString sender = query.value(1).toString();
+        QString receiver = query.value(2).toString();
+        QString time = query.value(3).toString();
+        QString title = query.value(4).toString();
+        QString content = query.value(5).toString();
+
+        rela.prepare("select count(*) from relation where (username = :name and victim = :victim and state = 2)");
+        rela.bindValue(":victim", sender);
+        rela.bindValue(":name",receiver);
+        rela.exec();
+        rela.next();
+        //the relation of black exist. refuse it
+        if(rela.value(0).toInt())
+            continue;
         if(startWith)
         {
             startWith--;
@@ -295,14 +311,10 @@ QList<Mail> Databs::receiveMail(QString username, int startWith, int num)
         }
         if(++count>num)
             break;
-        int id=query.value(0).toInt();
-        QString sender = query.value(1).toString();
-        QString receiver = query.value(2).toString();
-        QString time = query.value(3).toString();
-        QString title = query.value(4).toString();
-        QString content = query.value(5).toString();
+
         //qDebug() << "sender->" << sender;
         //qDebug() << "content>" << content;
+
         Mail tmp(id, sender, receiver, time, title, content);
         retval.append(tmp);
     }
@@ -396,6 +408,40 @@ QList<Mail> Databs::getDeleted(QString username, int startWith, int num)
     return retval;
 }
 
+//get mails between name and victim
+QList<Mail> Databs::getMailBtwn(QString username, QString victim, int startWith, int num)
+{
+    int count=0;
+    QSqlQuery query;
+    QList<Mail> retval;
+    query.prepare("select * from mail where (sender= :sender1 and receiver = :receiver1 or sender = :sender2 and receiver = :receiver2)");
+    query.bindValue(":sender1", username);
+    query.bindValue(":receiver1", victim);
+    query.bindValue(":sender2", victim);
+    query.bindValue(":receiver2", username);
+    query.exec();
+    while(query.next())
+    {
+        if(startWith)
+        {
+            startWith--;
+            continue;
+        }
+        if(++count>num)
+            break;
+        int id=query.value(0).toInt();
+        QString sender = query.value(1).toString();
+        QString receiver = query.value(2).toString();
+        QString time = query.value(3).toString();
+        QString title = query.value(4).toString();
+        QString content = query.value(5).toString();
+        //qDebug() << "sender->" << sender;
+        //qDebug() << "content>" << content;
+        Mail tmp(id, sender, receiver, time, title, content);
+        retval.append(tmp);
+    }
+    return retval;
+}
 //mark that the sender delete the mail
 bool Databs::sendDelete(int id)
 {
@@ -421,6 +467,94 @@ bool Databs::isread(int id)
     return query.exec();
 }
 
+
+/****************************************************************
+ ****************below are relation related functions************
+ ****************************************************************/
+// add victim into mail list, can set nickname, default is ""
+bool Databs::addIntoList(QString username, QString victim, QString nickname)
+{
+    QSqlQuery query;
+    QString commond;
+    commond = "insert into relations (username, victim, nickname, state)";
+    commond += "values (:username, :victim, :nickname, 1)";
+    query.prepare((const QString)commond);
+    query.bindValue(":username", username);
+    query.bindValue(":victim", victim);
+    query.bindValue(":nickname", nickname);
+    return query.exec();
+}
+// deDatabs::lete victim from mail list
+bool Databs::delFromList(QString username, QString victim)
+{
+    QSqlQuery query;
+    query.prepare("delete from relation where username = :username and victim = :victim and state = 1");
+    query.bindValue(":username", username);
+    query.bindValue(":victim", victim);
+    return query.exec();
+}
+// adDatabs::d victim into black list
+bool Databs::pullBlack(QString username, QString victim)
+{
+    QSqlQuery query;
+    commond = "insert into relations (username, victim, state)";
+    commond += "values (:username, :victim, 2)";
+    query.prepare((const QString)commond);
+    query.bindValue(":username", username);
+    query.bindValue(":victim", victim);
+    return query.exec();
+}
+// deDatabs::lete from black
+bool Databs::delFromBlack(QString username, QString victim)
+{
+    QSqlQuery query;
+    query.prepare("delete from relation where username = :username and victim = :victim and state = 2");
+    query.bindValue(":username", username);
+    query.bindValue(":victim", victim);
+    return query.exec();
+}
+// check mails from black
+QList<Mail> getBlackMail(QString username,int startWith, int num)
+{
+    int count=0;
+    QSqlQuery query;
+    QSqlQuery rela;
+    QList<Mail> retval;
+    query.prepare("select * from mail where receiver = :receiver");
+    query.bindValue(":receiver", username);
+    query.exec();
+    while(query.next())
+    {
+        int id=query.value(0).toInt();
+        QString sender = query.value(1).toString();
+        QString receiver = query.value(2).toString();
+        QString time = query.value(3).toString();
+        QString title = query.value(4).toString();
+        QString content = query.value(5).toString();
+
+        rela.prepare("select count(*) from relation where (username = :name and victim = :victim and state = 2)");
+        rela.bindValue(":victim", sender);
+        rela.bindValue(":name",receiver);
+        rela.exec();
+        rela.next();
+        //the relation of black not exist. refuse it
+        if(!rela.value(0).toInt())
+            continue;
+        if(startWith)
+        {
+            startWith--;
+            continue;
+        }
+        if(++count>num)
+            break;
+
+        //qDebug() << "sender->" << sender;
+        //qDebug() << "content>" << content;
+        Mail tmp(id, sender, receiver, time, title, content);
+        retval.append(tmp);
+    }
+    return retval;
+}
 
 
 

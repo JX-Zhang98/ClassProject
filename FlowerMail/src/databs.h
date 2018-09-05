@@ -54,6 +54,8 @@ public:
     QList <Mail> getDraft(QString username, int startWith, int num=15);       //receiver null
     //get all mails deleted, receiver=me&&recverdeleted || sender=me&&senderdeleted
     QList<Mail> getDeleted(QString username, int startWith, int num=15);
+    //get mails between name and victim
+    QList<Mail> getMailBtwn(QString username, QString victim, int startWith, int num=15);
     //mark that the sender delete the mail
     bool sendDelete(int id);
     //mark that the receiver delte teh mail
@@ -61,13 +63,26 @@ public:
     //mark that the mail has been read
     bool isread(int id);
 
+    /************about relations*****************/
+    // add victim into mail list, can set nickname, default is ""
+    bool addIntoList(QString username, QString victim, QString nickname="");
+    // delete victim from mail list
+    bool delFromList(QString username, QString victim);
+    // add victim into black list
+    bool pullBlack(QString username, QString victim);
+    // delete from black
+    bool delFromBlack(QString username, QString victim);
+    // check mails from black
+    QList<Mail> getBlackMail(QString username, int startWith, int num=15);
+
+
+
 
 
 
 
 private:
     QSqlDatabase db;
-    //QSqlQuery query;
 };
 
 #endif // DATABS_H

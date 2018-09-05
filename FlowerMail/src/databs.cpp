@@ -39,7 +39,7 @@ bool Databs::addUser(QString username, QString password)
     QSqlQuery query;
     QString md5Psd = md5(password+md5(password));
     QString commond;
-    commond = "insert into account (username, password) values ('";
+    commond = "insert into account (username, password, state) values ('";
     commond += username;
     commond += "', '";
     commond += md5Psd;
@@ -121,7 +121,7 @@ bool Databs::reSetPass(QString name, QString newPass)
     QSqlQuery query;
     QString commond;
     QString pass = md5(newPass+md5(newPass));
-    commond = "updata account set password = '";
+    commond = "update account set password = '";
     commond += pass + "' ";
     commond += "where username='"+name+"'";
     return query.exec((const QString)commond);
@@ -149,12 +149,14 @@ bool Databs::checkAns(QString name, QString ans)
     QString commond;
     commond = "select ans1 from account where username='";
     commond += name+"'";
+    query.exec(commond);
     while(query.next())
     {
         if(ans.compare(query.value(0).toString()))
             return false;
         return true;
     }
+    qDebug()<<"no record";
     return false;
 }
 
@@ -163,11 +165,12 @@ bool Databs::setQuestion(QString question, QString ans, QString name)
 {
     QSqlQuery query;
     QString commond;
-    commond = "updata account set question1 = '";
+    commond = "update account set question1 = '";
     commond += question+"' ";
     commond += "where username='"+name+"'";
+
     bool step1 = query.exec((const QString)commond);
-    commond = "updata account set ans1 = '";
+    commond = "update account set ans1 = '";
     commond += ans+"' ";
     commond += "where username='"+name+"'";
     bool step2 = query.exec((const QString)commond);
@@ -175,16 +178,16 @@ bool Databs::setQuestion(QString question, QString ans, QString name)
 }
 
 //change information of user, this is done in setting , including realname, telephone
-bool setInfo(QString realname, QString tele, QString name)
+bool Databs::setInfo(QString realname, QString tele, QString name)
 {
     QSqlQuery query;
     QString commond;
     bool step1, step2;
-    commond = "updata account set realname = '";
+    commond = "update account set realname = '";
     commond += realname + "' ";
     commond += "where username='" + name + "'";
     step1 = query.exec(commond);
-    commond = "updata account set telephone = '";
+    commond = "update account set telephone = '";
     commond += tele + "' ";
     commond += "where username='" + name + "'";
     step2 = query.exec(commond);
@@ -192,7 +195,7 @@ bool setInfo(QString realname, QString tele, QString name)
 }
 
 //get name and tele
-QString getRealName(QString username)
+QString Databs::getRealName(QString username)
 {
     QSqlQuery query;
     QString commond;
@@ -202,7 +205,7 @@ QString getRealName(QString username)
     query.next();
     return query.value(0).toString();
 }
-QString getTelephone(QString username)
+QString Databs::getTelephone(QString username)
 {
     QSqlQuery query;
     QString commond;
@@ -320,6 +323,8 @@ QList<Mail> Databs::receiveMail(QString username, int startWith, int num)
     }
     return retval;
 }
+
+
 //get the sended mails, 15 per time, jump $startWith mails before return
 QList <Mail> Databs::getSended(QString username, int startWith, int num)
 {
@@ -349,6 +354,8 @@ QList <Mail> Databs::getSended(QString username, int startWith, int num)
     }
     return retval;
 }
+
+
 QList <Mail> getDraft(QString username, int startWith, int num)      //receiver null
 {
     QSqlQuery query;
@@ -377,6 +384,8 @@ QList <Mail> getDraft(QString username, int startWith, int num)      //receiver 
     }
     return retval;
 }
+
+
 //get all mails deleted, receiver=me&&recverdeleted || sender=me&&senderdeleted
 QList<Mail> Databs::getDeleted(QString username, int startWith, int num)
 {
@@ -442,27 +451,35 @@ QList<Mail> Databs::getMailBtwn(QString username, QString victim, int startWith,
     }
     return retval;
 }
+
+
 //mark that the sender delete the mail
-bool Databs::sendDelete(int id)
+bool Databs::sendDelete(int id, int opera)
 {
     QSqlQuery query;
-    query.prepare("updata mail set senddelete = 1 where id = :id");
+    query.prepare("update mail set senddelete = :sta where id = :id");
     query.bindValue(":id", id);
+    query.bindValue(":sta", opera);
     return query.exec();
 }
+
+
 //mark that the receiver delte teh mail
-bool Databs::receiverDelete(int id)
+bool Databs::receiverDelete(int id, int opera)
 {
     QSqlQuery query;
-    query.prepare("updata mail set receivedelete = 1 where id = :id");
+    query.prepare("update mail set receivedelete = :sta where id = :id");
     query.bindValue(":id", id);
+    query.bindValue(":sta", opera);
     return query.exec();
 }
+
+
 //mark that the mail has been read
 bool Databs::isread(int id)
 {
     QSqlQuery query;
-    query.prepare("updata mail set isread = 1 where id = :id");
+    query.prepare("update mail set isread = 1 where id = :id");
     query.bindValue(":id", id);
     return query.exec();
 }
@@ -476,7 +493,7 @@ bool Databs::addIntoList(QString username, QString victim, QString nickname)
 {
     QSqlQuery query;
     QString commond;
-    commond = "insert into relations (username, victim, nickname, state)";
+    commond = "insert into relation (username, victim, nickname, state)";
     commond += "values (:username, :victim, :nickname, 1)";
     query.prepare((const QString)commond);
     query.bindValue(":username", username);
@@ -484,6 +501,8 @@ bool Databs::addIntoList(QString username, QString victim, QString nickname)
     query.bindValue(":nickname", nickname);
     return query.exec();
 }
+
+
 // deDatabs::lete victim from mail list
 bool Databs::delFromList(QString username, QString victim)
 {
@@ -493,18 +512,22 @@ bool Databs::delFromList(QString username, QString victim)
     query.bindValue(":victim", victim);
     return query.exec();
 }
+
+
 // adDatabs::d victim into black list
 bool Databs::pullBlack(QString username, QString victim)
 {
     QSqlQuery query;
     QString commond;
-    commond = "insert into relations (username, victim, state)";
+    commond = "insert into relation (username, victim, state)";
     commond += "values (:username, :victim, 2)";
     query.prepare((const QString)commond);
     query.bindValue(":username", username);
     query.bindValue(":victim", victim);
     return query.exec();
 }
+
+
 // deDatabs::lete from black
 bool Databs::delFromBlack(QString username, QString victim)
 {
@@ -514,6 +537,8 @@ bool Databs::delFromBlack(QString username, QString victim)
     query.bindValue(":victim", victim);
     return query.exec();
 }
+
+
 // check mails from black
 QList<Mail> getBlackMail(QString username,int startWith, int num)
 {
@@ -556,31 +581,3 @@ QList<Mail> getBlackMail(QString username,int startWith, int num)
     }
     return retval;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

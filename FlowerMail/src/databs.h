@@ -17,6 +17,7 @@ public:
     Databs();
     ~Databs();
     /**********account*********************/
+    /******all func about account is completed with argv as QString************/
     // register to add users
     bool addUser(QString username, QString password);
     // check if the username exists when registing or logining in
@@ -56,12 +57,13 @@ public:
     QList<Mail> getDeleted(QString username, int startWith, int num=15);
     //get mails between name and victim
     QList<Mail> getMailBtwn(QString username, QString victim, int startWith, int num=15);
-    //mark that the sender delete the mail
-    bool sendDelete(int id);
-    //mark that the receiver delte teh mail
-    bool receiverDelete(int id);
+    //mark that the sender delete the mail   -> opera = 0 means delete while 1 means recover
+    bool sendDelete(int id,int opera);
+    //mark that the receiver delte teh mail  -> opera = 0 means delete while 1 means recover
+    bool receiverDelete(int id,int opera);
     //mark that the mail has been read
     bool isread(int id);
+
 
     /************about relations*****************/
     // add victim into mail list, can set nickname, default is ""

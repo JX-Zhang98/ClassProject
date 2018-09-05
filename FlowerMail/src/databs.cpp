@@ -497,6 +497,7 @@ bool Databs::delFromList(QString username, QString victim)
 bool Databs::pullBlack(QString username, QString victim)
 {
     QSqlQuery query;
+    QString commond;
     commond = "insert into relations (username, victim, state)";
     commond += "values (:username, :victim, 2)";
     query.prepare((const QString)commond);

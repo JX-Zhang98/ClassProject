@@ -19,6 +19,7 @@ public:
     /**********account*********************/
     /******all func about account is completed with argv as QString************/
     // register to add users
+    //state = 0 means no autoReply, 1 means has autoReply
     bool addUser(QString username, QString password);
     // check if the username exists when registing or logining in
     //exits return 1, not exist return 0
@@ -40,7 +41,10 @@ public:
     //get name and tele
     QString getRealName(QString username);
     QString getTelephone(QString username);
-
+    // set what to reply when receive a mail automatically
+    bool setAutoReply(QString username, QString reply);
+    // get what to reply when receive a mail automatically
+    QString getAutoReply(QString username);
 
     /***************mail******************/
     //send the mail to database
@@ -63,6 +67,7 @@ public:
     bool receiverDelete(int id,int opera);
     //mark that the mail has been read
     bool isread(int id);
+
 
 
     /************about relations*****************/

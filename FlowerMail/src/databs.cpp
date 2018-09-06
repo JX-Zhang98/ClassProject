@@ -39,12 +39,13 @@ bool Databs::addUser(QString username, QString password)
     QSqlQuery query;
     QString md5Psd = md5(password+md5(password));
     QString commond;
-    commond = "insert into account (username, password, state) values ('";
+    commond = "insert into account (username, password, state"
+              "ate) values ('";
     commond += username;
     commond += "', '";
     commond += md5Psd;
-    commond += "', 1)";
-    //qDebug()<< query.exec("insert into account (username, password, realname, telephone, state) values ('saltyFish', '654321', 'ZJX', '119', 1)");
+    commond += "', 0)";
+    //qDebug()<< query.exec("insert into account (username, password, realname, telephone, state) values ('saltyFish', '654321', 'ZJX', '119', 0)");
     if (query.exec((const QString)commond))
     {
         qDebug() << "register success!";
@@ -215,6 +216,30 @@ QString Databs::getTelephone(QString username)
     query.next();
     return query.value(0).toString();
 }
+
+// set what to reply when receive a mail automatically
+bool Databs::setAutoReply(QString username, QString reply)
+{
+    reply.replace("'", "");
+    QSqlQuery query;
+    QString commond;
+    commond = "update account set reply = :reply where username = :name";
+    query.prepare((const QString)commond);
+    query.bindValue(":reply", reply);
+    query.bindValue(":name", username);
+    return query.exec();
+}
+// get what to reply when receive a mail automatically
+QString Databs::getAutoReply(QString username)
+{
+    QSqlQuery query;
+    query.prepare("select reply from account where username = :name");
+    query.bindValue(":name",username);
+    query.next();
+    return query.value(0).toString();
+}
+
+
 
 /**************************************************************************************/
 /**************************Below are mail related functions****************************/
@@ -483,6 +508,8 @@ bool Databs::isread(int id)
     query.bindValue(":id", id);
     return query.exec();
 }
+
+
 
 
 /****************************************************************

@@ -19,7 +19,6 @@ public:
     /**********account*********************/
     /******all func about account is completed with argv as QString************/
     // register to add users
-    //state = 0 means no autoReply, 1 means has autoReply
     bool addUser(QString username, QString password);
     // check if the username exists when registing or logining in
     //exits return 1, not exist return 0
@@ -41,10 +40,7 @@ public:
     //get name and tele
     QString getRealName(QString username);
     QString getTelephone(QString username);
-    // set what to reply when receive a mail automatically
-    bool setAutoReply(QString username, QString reply);
-    // get what to reply when receive a mail automatically
-    QString getAutoReply(QString username);
+
 
     /***************mail******************/
     //send the mail to database
@@ -67,7 +63,9 @@ public:
     bool receiverDelete(int id,int opera);
     //mark that the mail has been read
     bool isread(int id);
-
+    //get sender and receiver by id
+    QString getSenderById(int id);
+    QString getRcverById(int id);
 
 
     /************about relations*****************/
@@ -75,15 +73,29 @@ public:
     bool addIntoList(QString username, QString victim, QString nickname="");
     // delete victim from mail list
     bool delFromList(QString username, QString victim);
-    // add victim into black list
+    // add victim into black list from contact
     bool pullBlack(QString username, QString victim);
+    // pull one into contact from black
+    bool pullWhite(QString username, QString victim);
+    //add a victim into black
+    bool addBlack(QString username, QString victim);
     // delete from black
     bool delFromBlack(QString username, QString victim);
     // check mails from black
     QList<Mail> getBlackMail(QString username, int startWith, int num=15);
 
+    // get contacter or black by username
+    QList<QString> getContact(QString name);
+    QList<QString> getBlack(QString name);
 
 
+    // set what to reply when receive a mail automatically
+    bool setAutoReply(QString username, QString reply);
+    bool concelAutoReply(QString username);
+    // get what to reply when receive a mail automatically
+    QString getAutoReply(QString username);
+    // check if auto reply
+    bool checkAutoReply(QString name);
 
 
 

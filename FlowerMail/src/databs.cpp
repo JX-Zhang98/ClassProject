@@ -39,13 +39,12 @@ bool Databs::addUser(QString username, QString password)
     QSqlQuery query;
     QString md5Psd = md5(password+md5(password));
     QString commond;
-    commond = "insert into account (username, password, state"
-              "ate) values ('";
+    commond = "insert into account (username, password, state) values ('";
     commond += username;
     commond += "', '";
     commond += md5Psd;
-    commond += "', 0)";
-    //qDebug()<< query.exec("insert into account (username, password, realname, telephone, state) values ('saltyFish', '654321', 'ZJX', '119', 0)");
+    commond += "', 1)";
+    //qDebug()<< query.exec("insert into account (username, password, realname, telephone, state) values ('saltyFish', '654321', 'ZJX', '119', 1)");
     if (query.exec((const QString)commond))
     {
         qDebug() << "register success!";
@@ -217,30 +216,6 @@ QString Databs::getTelephone(QString username)
     return query.value(0).toString();
 }
 
-// set what to reply when receive a mail automatically
-bool Databs::setAutoReply(QString username, QString reply)
-{
-    reply.replace("'", "");
-    QSqlQuery query;
-    QString commond;
-    commond = "update account set reply = :reply where username = :name";
-    query.prepare((const QString)commond);
-    query.bindValue(":reply", reply);
-    query.bindValue(":name", username);
-    return query.exec();
-}
-// get what to reply when receive a mail automatically
-QString Databs::getAutoReply(QString username)
-{
-    QSqlQuery query;
-    query.prepare("select reply from account where username = :name");
-    query.bindValue(":name",username);
-    query.next();
-    return query.value(0).toString();
-}
-
-
-
 /**************************************************************************************/
 /**************************Below are mail related functions****************************/
 /**************************************************************************************/
@@ -301,7 +276,7 @@ bool Databs::saveDraft(Mail mail)
     query.bindValue(":time", time);
     query.bindValue(":title", title);
     query.bindValue(":content", content);
-    qDebug()<<query.exec();
+    //qDebug()<<query.exec();
     return query.exec();
 }
 
@@ -312,7 +287,7 @@ QList<Mail> Databs::receiveMail(QString username, int startWith, int num)
     QSqlQuery query;
     QSqlQuery rela;
     QList<Mail> retval;
-    query.prepare("select * from mail where receiver = :receiver");
+    query.prepare("select * from mail where receiver = :receiver and receivedelete = 0");
     query.bindValue(":receiver", username);
     query.exec();
     while(query.next())
@@ -356,7 +331,7 @@ QList <Mail> Databs::getSended(QString username, int startWith, int num)
     QSqlQuery query;
     int count=0;
     QList<Mail> retval;
-    query.prepare("select * from mail where sender = :sender where receiver !=''");
+    query.prepare("select * from mail where sender = :sender and receiver !='' and senddelete = 0");
     query.bindValue(":sender", username);
     query.exec();
     while(query.next())
@@ -381,12 +356,12 @@ QList <Mail> Databs::getSended(QString username, int startWith, int num)
 }
 
 
-QList <Mail> getDraft(QString username, int startWith, int num)      //receiver null
+QList <Mail>  Databs::getDraft(QString username, int startWith, int num)      //receiver null
 {
     QSqlQuery query;
     int count=0;
     QList<Mail> retval;
-    query.prepare("select * from mail where sender = :sender where receiver =''");
+    query.prepare("select * from mail where sender = :sender and receiver =''");
     query.bindValue(":sender", username);
     query.exec();
     while(query.next())
@@ -406,7 +381,9 @@ QList <Mail> getDraft(QString username, int startWith, int num)      //receiver 
         QString content = query.value(5).toString();
         Mail tmp(id, sender, receiver, time, title, content);
         retval.append(tmp);
+        qDebug()<<id;
     }
+    qDebug()<<retval.count();
     return retval;
 }
 
@@ -510,7 +487,34 @@ bool Databs::isread(int id)
 }
 
 
+//get sender and receiver by id
+QString Databs::getSenderById(int id)
+{
+     QSqlQuery query;
+     query.prepare("select sender from mail where id = :id");
+     query.bindValue(":id", id);
+     while(query.next())
+     {
+         QString sender;
+         sender = query.value(0).toString();
+         return sender;
+     }
+     return "error";
+}
 
+QString Databs::getRcverById(int id)
+{
+     QSqlQuery query;
+     query.prepare("select receiver from mail where id = :id");
+     query.bindValue(":id", id);
+     while(query.next())
+     {
+         QString receiver;
+         receiver = query.value(0).toString();
+         return receiver;
+     }
+     return "error";
+}
 
 /****************************************************************
  ****************below are relation related functions************
@@ -545,6 +549,25 @@ bool Databs::delFromList(QString username, QString victim)
 bool Databs::pullBlack(QString username, QString victim)
 {
     QSqlQuery query;
+    query.prepare( "update relation set state = 2 where username = :username and victim = :victim");
+    query.bindValue(":username", username);
+    query.bindValue(":victim", victim);
+    return query.exec();
+}
+// pull one into contact from black
+bool Databs::pullWhite(QString username, QString victim)
+{
+    QSqlQuery query;
+    query.prepare( "update relation set state = 1 where username = :username and victim = :victim");
+    query.bindValue(":username", username);
+    query.bindValue(":victim", victim);
+    return query.exec();
+}
+
+//add a victim into black
+bool Databs::addBlack(QString username, QString victim)
+{
+    QSqlQuery query;
     QString commond;
     commond = "insert into relation (username, victim, state)";
     commond += "values (:username, :victim, 2)";
@@ -553,7 +576,6 @@ bool Databs::pullBlack(QString username, QString victim)
     query.bindValue(":victim", victim);
     return query.exec();
 }
-
 
 // deDatabs::lete from black
 bool Databs::delFromBlack(QString username, QString victim)
@@ -607,4 +629,76 @@ QList<Mail> getBlackMail(QString username,int startWith, int num)
         retval.append(tmp);
     }
     return retval;
+}
+
+
+// get contacter or black by username
+QList<QString> Databs::getContact(QString name)
+{
+    QSqlQuery query;
+    QList<QString> retval;
+    query.prepare("select victim from relation where username = :name and state = 1");
+    query.bindValue(":name", name);
+    query.exec();
+    while(query.next())
+    {
+        retval.append(query.value(0).toString());
+    }
+    return retval;
+}
+QList<QString> Databs::getBlack(QString name)
+{
+    QSqlQuery query;
+    QList<QString> retval;
+    query.prepare("select victim from relation where username = :name and state = 2");
+    query.bindValue(":name", name);
+    query.exec();
+    while(query.next())
+    {
+        retval.append(query.value(0).toString());
+    }
+    return retval;
+}
+
+// set what to reply when receive a mail automatically
+bool Databs::setAutoReply(QString username, QString reply)
+{
+    reply.replace("'", "");
+    QSqlQuery query;
+    QString commond;
+    qDebug()<<reply;
+    commond = "update account set reply = :reply, state = 1 where username = :name";
+    query.prepare((const QString)commond);
+    query.bindValue(":reply", reply);
+    query.bindValue(":name", username);
+    return query.exec();
+}
+bool Databs::concelAutoReply(QString username)
+{
+    QSqlQuery query;
+    QString commond;
+    commond = "update account set state = 0 where username = :name";
+    query.prepare((const QString)commond);
+    query.bindValue(":name", username);
+    return query.exec();
+}
+// get what to reply when receive a mail automatically
+QString Databs::getAutoReply(QString username)
+{
+    QSqlQuery query;
+    query.prepare("select reply from account where username = :name");
+    query.bindValue(":name",username);
+    query.exec();
+    query.next();
+    return query.value(0).toString();
+}
+
+bool Databs::checkAutoReply(QString name)
+{
+    QSqlQuery query;
+    query.prepare("select state from account where username = :name");
+    query.bindValue(":name", name);
+    query.exec();
+    query.next();
+    return query.value(0).toBool();
 }

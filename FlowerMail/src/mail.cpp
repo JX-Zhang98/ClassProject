@@ -78,7 +78,7 @@ bool Mail::setSenderDel()
     query.bindValue(":id",id);
     query.exec();*/
     Databs tmp;
-    return tmp.sendDelete(id);
+    return tmp.sendDelete(id, 0);
 }
 bool Mail::setReceiverDel()
 {
@@ -89,7 +89,7 @@ bool Mail::setReceiverDel()
     query.bindValue(":id",id);
     query.exec();*/
     Databs tmp;
-    return tmp.receiverDelete(id);
+    return tmp.receiverDelete(id, 0);
 }
 
 QString Mail::getReceiver()

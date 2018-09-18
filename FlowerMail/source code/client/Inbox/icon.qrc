@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>src/textcenter.png</file>
+        <file>src/textbold.png</file>
+        <file>src/textitalic.png</file>
+        <file>src/textleft.png</file>
+        <file>src/textright.png</file>
+        <file>src/textunder.png</file>
+        <file>src/noNumberList.png</file>
+        <file>src/numberList.png</file>
+        <file>src/noList.png</file>
+    </qresource>
+</RCC>

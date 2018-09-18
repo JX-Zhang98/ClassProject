@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShowBox</class>
+ <widget class="QWidget" name="ShowBox">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>980</width>
+    <height>551</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="Sender">
+     <property name="text">
+      <string>收件人：</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="Time">
+     <property name="text">
+      <string>时间：</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="Title">
+     <property name="text">
+      <string>主题：</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="content">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

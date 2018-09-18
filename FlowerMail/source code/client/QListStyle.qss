@@ -1,0 +1,23 @@
+﻿QListView {
+    show-decoration-selected: 1;
+    background-color:rgb(100 ,100 ,100);
+}
+QListView::item {
+   min-height:100px;   /*设置每个item的高度*/
+   border-style: none;  /*去掉item的borber*/
+   color: rgb(180,180,180);/*文字颜色*/
+   font: 18pt "新宋体";
+}
+
+QListView::item:selected {
+    border: none;
+        border-style: none;
+         color: rgb(240,240,240);
+}
+
+
+QListView::item:hover {  /*鼠标悬停时的效果*/
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                       stop: 0 #FAFBFE, stop: 1 #DCDEF1);/*这是一个渐变颜色*/
+     color: rgb(100,100,100);
+}

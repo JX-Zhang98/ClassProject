@@ -20,7 +20,7 @@
  */
 
 #include "implementation.hpp"
-
+#include <iostream>
 /**
  * @addtogroup examplesdcpsHelloWorldisocpp
  */
@@ -36,6 +36,7 @@ int EXAMPLE_MAIN (int argc, char *argv[])
 	examples::dcps::HelloWorld::isocpp::subscriber(topicc, namee);
 	topicc = "Reply";
 	namee = "msg got";
+	examples::dcps::HelloWorld::isocpp::dealwith();
 	examples::dcps::HelloWorld::isocpp::publisher(topicc, namee);
 	puts("Finish!\nEnter to exit.");
 	getchar();

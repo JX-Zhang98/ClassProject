@@ -1,3 +1,4 @@
+
 /*
  *                         OpenSplice DDS
  *
@@ -18,22 +19,18 @@
  *
  */
 
-#include "implementation.hpp"
-
-/**
- * @addtogroup examplesdcpsHelloWorldisocpp
- */
-/** @{*/
-/** @file */
-/** @}*/
-
-int EXAMPLE_MAIN (int argc, char *argv[])
-{
-  //return examples::dcps::CenterMachine::isocpp::publisher(argc, argv);
-	examples::dcps::HelloWorld::isocpp::broadcastCenter();
-	puts("Bingo!\nEnter to display.");
-	getchar();
-	//将处理结果进行展示
-	examples::dcps::HelloWorld::isocpp::display();
-	return 0;
+#include "common/example_export.h"
+#include <iostream>
+namespace examples {
+namespace dcps {
+namespace HelloWorld {
+namespace isocpp  {
+    OS_EXAMPLE_IMPL_EXPORT int publisher(std::string topicc, std::string namee);
+    OS_EXAMPLE_IMPL_EXPORT int subscriber(std::string topicc, std::string namee);
+	OS_EXAMPLE_IMPL_EXPORT int broadcastCenter();
+	OS_EXAMPLE_IMPL_EXPORT int display();
+	OS_EXAMPLE_IMPL_EXPORT int dealwith();
+}
+}
+}
 }

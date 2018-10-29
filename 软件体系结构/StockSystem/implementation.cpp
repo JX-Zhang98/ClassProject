@@ -1,31 +1,9 @@
-
-/*
- *                         OpenSplice DDS
- *
- *   This software and documentation are Copyright 2006 to  PrismTech
- *   Limited, its affiliated companies and licensors. All rights reserved.
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- *
- */
-
 #include "implementation.hpp"
 #include "common/example_utilities.h"
-
-#include <iostream>
+#include <fstream>
 #include <sstream>
-
 #include "ContentFilteredTopicData_DCPS.hpp"
+#define random(x) (rand()%x)
 
 namespace {
     const unsigned int write_loop_count = 20;
@@ -215,31 +193,303 @@ int subscriber(int argc, char *argv[])
     return result;
 }
 
+bool User::buy(string stockID, int number)
+{//只向交易所发送交易信息，不负责接收，接收信息由
+	//点击购买按钮后弹出输入信息框，得到购买的股票信息,通过参数调用次函数。
+
+	bool result;
+	try
+	{
+		dds::domain::DomainParticipant dp(org::opensplice::domain::default_id());
+		dds::topic::qos::TopicQos topicQos
+			= dp.default_topic_qos()//这里怎么搞啥策略加快传输速度？问何神
+			<< dds::core::policy::Durability::Transient()
+			<< dds::core::policy::Reliability::Reliable();
+		/*这两行要进行标识，双方需要保持一致*/
+		dds::topic::Topic<StockMarket::BuyInfo> topic(dp, "StockTrackerExclusive", topicQos);
+		std::string name = "ContentFilteredTopic example";
+		/************************************/
+		dds::pub::qos::PublisherQos pubQos
+			= dp.default_publisher_qos()
+			<< dds::core::policy::Partition(name);
+		dds::pub::Publisher pub(dp, pubQos);
+		dds::pub::qos::DataWriterQos dwqos = topic.qos();
+		dwqos << dds::core::policy::WriterDataLifecycle::AutoDisposeUnregisteredInstances();
+		dds::pub::DataWriter<StockMarket::BuyInfo> dw(pub, topic, dwqos);
+		
+		StockMarket::BuyInfo buyAsk(id,stockID,number);
+		cout << "ask to buy :" << endl << "user:  " << id << endl <<
+			"stock:  " << stockID << endl << "number :  " << number << endl;
+		dw << buyAsk;
+		exampleSleepMilliseconds(100);
+	}
+	catch (const dds::core::Exception& e)
+	{
+		std::cerr << "ERROR: Exception: " << e.what() << std::endl;
+		result = 1;
+	}
+	return result;
+}
+
+bool User::sell(string stockID, int number)
+{
+	bool result;
+	try
+	{
+		dds::domain::DomainParticipant dp(org::opensplice::domain::default_id());
+		dds::topic::qos::TopicQos topicQos
+			= dp.default_topic_qos()//这里怎么搞啥策略加快传输速度？问何神
+			<< dds::core::policy::Durability::Transient()
+			<< dds::core::policy::Reliability::Reliable();
+		/*这两行要进行标识，双方需要保持一致*/
+		dds::topic::Topic<StockMarket::BuyInfo> topic(dp, "StockTrackerExclusive", topicQos);
+		std::string name = "ContentFilteredTopic example";
+		/************************************/
+		dds::pub::qos::PublisherQos pubQos
+			= dp.default_publisher_qos()
+			<< dds::core::policy::Partition(name);
+		dds::pub::Publisher pub(dp, pubQos);
+		dds::pub::qos::DataWriterQos dwqos = topic.qos();
+		dwqos << dds::core::policy::WriterDataLifecycle::AutoDisposeUnregisteredInstances();
+		dds::pub::DataWriter<StockMarket::SellInfo> dw(pub, topic, dwqos);
+
+		StockMarket::SellInfo sellAsk(id, stockID, number);
+		cout << "ask to sell :" << endl << "user:  " << id << endl <<
+			"stock:  " << stockID << endl << "number :  " << number << endl;
+		dw << sellAsk;
+		exampleSleepMilliseconds(100);
+	}
+	catch (const dds::core::Exception& e)
+	{
+		std::cerr << "ERROR: Exception: " << e.what() << std::endl;
+		result = 1;
+	}
+	return result;
+}
+
+User User::FlushInfo()
+{//接收服务器发送的用户信息。
+	bool result;
+	try
+	{
+		dds::domain::DomainParticipant dp(org::opensplice::domain::default_id());
+		dds::topic::qos::TopicQos topicQos
+			= dp.default_topic_qos()//这里怎么搞啥策略加快传输速度？问何神
+			<< dds::core::policy::Durability::Transient()
+			<< dds::core::policy::Reliability::Reliable();
+		/*这两行要进行标识，双方需要保持一致*/
+		dds::topic::Topic<StockMarket::BuyInfo> topic(dp, "StockTrackerExclusive", topicQos);
+		std::string name = "ContentFilteredTopic example";
+		/************************************/
+		dds::pub::qos::PublisherQos pubQos
+			= dp.default_publisher_qos()
+			<< dds::core::policy::Partition(name);
+		dds::pub::Publisher pub(dp, pubQos);
+		dds::pub::qos::DataWriterQos dwqos = topic.qos();
+		dwqos << dds::core::policy::WriterDataLifecycle::AutoDisposeUnregisteredInstances();
+		dds::pub::DataWriter<StockMarket::UserInfo> dw(pub, topic, dwqos);
+
+		StockMarket::UserInfo userInfoAsk(id, stockID, number);
+		cout << "ask to sell :" << endl << "user:  " << id << endl <<
+			"stock:  " << stockID << endl << "number :  " << number << endl;
+		dw << sellAsk;
+		exampleSleepMilliseconds(100);
+	}
+	catch (const dds::core::Exception& e)
+	{
+		std::cerr << "ERROR: Exception: " << e.what() << std::endl;
+		result = 1;
+	}
+	return result;
+}
+
 Having::Having()
 {
 	stockID = "";
 	number = 0;
 }
+
 void Stock::StockClose()
 {
 	active = false;
 }
+
 void Stock::StockOpen()
 {
 	active = true;
 }
+
 float Stock::getPrice()
 {
 	return pricee;
 }
-float Stock::setPrice(float change)
+
+float Stock::setPrice(float newPrice)
 {
-	pricee = pricee * (1 + change);
+	pricee =newPrice;
 	return pricee;
 }
 
+float Stock::increase(float range)
+{
+	pricee *= 1 + range/100;
+	return pricee;
+}
 
+Exchange* Exchange::getInstance()
+{//返回唯一单例
+	return singleInstance;
+}
 
+void Exchange::stopEx()
+{
+	active = 0;
+}
+
+void Exchange::goEx()
+{
+	active = 1;
+}
+
+string Exchange::toBuy(int userID, string stockID, int num)
+{
+	//检查余额是否足够
+	string tmpPath = "User\\" + to_string(userID);
+	User tmpUser(tmpPath);
+	Stock* tmpStock;
+	int i = 0,flag=0;
+	for (i = 0; i < cont; i++)
+	{
+		if (!stocks[i].stockID.compare(stockID))
+		{
+			tmpStock = &stocks[i];
+			break;
+		}
+	}
+	if (tmpStock->reminder < num)
+		return "股票数量不足，请减少购买数量";
+	if (tmpUser.cash < num*tmpStock->pricee)
+		return "余额不足，请及时充值";
+	//能够成功购买
+	tmpUser.cash -= num * tmpStock->pricee;
+	tmpStock->reminder -= num;
+	for (i = 0; i < tmpUser.holdNum; i++)
+	{
+		if (!tmpUser.hold[i].stockID.compare(stockID))
+		{
+			tmpUser.hold[i].number += num;
+			flag = 1;//找到了已有股票
+			break;
+		}
+	}
+	if (!flag)//没有找到现有股票
+	{
+		tmpUser.hold[tmpUser.holdNum++].stockID = stockID;
+		tmpUser.hold[tmpUser.holdNum++].number = num;
+	}
+	tmpUser.saveUser(tmpPath);
+	return "购买成功！";
+}
+
+string Exchange::toSell(int userID, string stockID, int num)
+{
+	string tmpPath = "User\\" + to_string(userID);
+	User tmpUser(tmpPath);
+	Stock* tmpStock;
+	int i = 0, flag = 0;
+	for (i = 0; i < cont; i++)
+	{
+		if (!stocks[i].stockID.compare(stockID))
+		{
+			tmpStock = &stocks[i];
+			break;
+		}
+	}
+	for (i = 0; i < tmpUser.holdNum; i++)
+	{
+		if (!tmpUser.hold[i].stockID.compare(stockID)&& !tmpUser.hold[i].number)
+		{
+			flag = 1;//有这种股票
+			if (tmpUser.hold[i].number < num)
+				return "持有数量不足，请重新确认出售数量。";
+			tmpUser.hold[i].number -= num;//可以优化若持有数量==0，则清除此持有，holdnum--；
+			tmpUser.cash += num * tmpStock->pricee;
+			tmpStock->reminder += num;
+		}
+	}
+	if (!flag)
+		return "未持有此股票，请重新确认。";
+
+}
+
+vector <Stock> Exchange::getInfo()
+{
+	vector <Stock> allStockInfo;
+	for (int i = 0; i < cont; i++)
+	{
+		allStockInfo.push_back(stocks[i]);
+	}
+	return allStockInfo;
+}
+
+User Exchange::checkLogin(string userName, string password)
+{//登录成功之后将用户信息返回
+	string tmpPath = "User\\" + userName;
+	User tmpUser(tmpPath);
+	ifstream userFile(tmpPath);
+	string passHash;
+	getline(userFile, passHash);
+	if (!passHash.compare(password))
+		return tmpUser;
+	User emptyUser;
+	return emptyUser;
+}
+
+void Exchange::saveStocks()
+{
+
+	ofstream stockInfo("stocksInfo");
+	for (int i = 0; i < cont; i++)
+	{//将所有股票的信息全部存入文件中保存。
+		stockInfo << stocks[i].stockID << endl;
+		stockInfo << stocks[i].name << endl;
+		stockInfo << stocks[i].details << endl;
+		stockInfo << stocks[i].active << endl;
+		stockInfo << stocks[i].pricee << endl;
+		stockInfo << stocks[i].reminder << endl<<endl;
+	}
+}
+
+void Exchange::importStocks()
+{
+	ifstream stockInfo("stocksInfo.txt");
+	cont = 0;
+	string tmpInfo;
+	Stock tmpStock;
+	while (1)
+	{
+		getline(stockInfo, tmpStock.stockID);
+		getline(stockInfo, tmpStock.name);
+		getline(stockInfo, tmpStock.details);
+		getline(stockInfo, tmpInfo);
+		tmpStock.active = (bool)stoi(tmpInfo);
+		getline(stockInfo, tmpInfo);
+		tmpStock.pricee = stof(tmpInfo);
+		getline(stockInfo, tmpInfo);
+		tmpStock.pricee = stoi(tmpInfo);
+		stocks[cont++] = tmpStock;		
+	}
+}
+
+void Exchange::adjustStocks()
+{
+	srand((int)time(0));
+	for (int i = 0; i < cont; i++)
+	{
+		float range = random(1000) / 100.0 - 5;
+		stocks[i].increase(range);
+	}
+}
 
 
 }

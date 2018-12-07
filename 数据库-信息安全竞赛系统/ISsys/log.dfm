@@ -7632,8 +7632,8 @@ object login: Tlogin
       2D26520D5849F0FA9FCEFCF2FD3459E39B20B69F363C4ECF14F64D43FC07256E
       471BFFD9}
     Stretch = True
-    ExplicitLeft = 8
-    ExplicitTop = 54
+    ExplicitWidth = 1366
+    ExplicitHeight = 768
   end
   object username: TLabel
     Left = 120
@@ -7661,6 +7661,7 @@ object login: Tlogin
     Top = 107
     Width = 161
     Height = 21
+    PasswordChar = '*'
     TabOrder = 1
   end
   object ok: TButton

@@ -1512,7 +1512,6 @@ object regist: Tregist
     Height = 49
     Caption = #30830#35748
     TabOrder = 0
-    OnClick = ConfirmClick
   end
   object usr: TEdit
     Left = 96

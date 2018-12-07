@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, jpeg, ExtCtrls;
+  Dialogs, StdCtrls, jpeg, ExtCtrls, log;
 
 type
   Tregist = class(TForm)
@@ -18,7 +18,6 @@ type
     regemail: TLabel;
     passwd: TLabel;
     repasswd: TLabel;
-    procedure ConfirmClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,16 +30,10 @@ var
 implementation
 
 {$R *.dfm}
-uses log;
 
 
 
 
 
-procedure Tregist.ConfirmClick(Sender: TObject);
-begin
-
-    login.Show;
-end;
 
 end.

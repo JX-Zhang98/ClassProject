@@ -39,8 +39,7 @@ uses log;
 
 procedure Tregist.ConfirmClick(Sender: TObject);
 begin
-
-    login.Show;
+    login.Create;
 end;
 
 end.

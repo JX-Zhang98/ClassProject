@@ -11,7 +11,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(Tlogin, login);
-  Application.CreateForm(Tregist, regist);
+  //Application.CreateForm(Tregist, regist);
 
   Application.Run;
 end.

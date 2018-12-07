@@ -2,8 +2,8 @@ object login: Tlogin
   Left = 0
   Top = 0
   Caption = #30331#24405
-  ClientHeight = 322
-  ClientWidth = 600
+  ClientHeight = 360
+  ClientWidth = 640
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,8 +16,8 @@ object login: Tlogin
   object back: TImage
     Left = 0
     Top = 0
-    Width = 600
-    Height = 322
+    Width = 640
+    Height = 360
     Align = alClient
     AutoSize = True
     Picture.Data = {
@@ -7632,8 +7632,8 @@ object login: Tlogin
       2D26520D5849F0FA9FCEFCF2FD3459E39B20B69F363C4ECF14F64D43FC07256E
       471BFFD9}
     Stretch = True
-    ExplicitWidth = 1366
-    ExplicitHeight = 768
+    ExplicitLeft = 8
+    ExplicitTop = 54
   end
   object username: TLabel
     Left = 120
@@ -7664,8 +7664,8 @@ object login: Tlogin
     TabOrder = 1
   end
   object ok: TButton
-    Left = 139
-    Top = 200
+    Left = 120
+    Top = 184
     Width = 105
     Height = 41
     Caption = #30830#23450
@@ -7673,8 +7673,8 @@ object login: Tlogin
     OnClick = okClick
   end
   object toReg: TButton
-    Left = 277
-    Top = 200
+    Left = 269
+    Top = 184
     Width = 91
     Height = 41
     Caption = #27880#20876
@@ -7689,14 +7689,14 @@ object login: Tlogin
       'on ID=DESKTOP-HOTAF5B;Use Encryption for Data=False;Tag with col' +
       'umn collation when possible=False'
     Provider = 'SQLOLEDB.1'
-    Left = 552
-    Top = 280
+    Left = 584
+    Top = 264
   end
   object query: TADOQuery
     Connection = db
     CursorType = ctStatic
     Parameters = <>
-    Left = 552
-    Top = 232
+    Left = 592
+    Top = 310
   end
 end

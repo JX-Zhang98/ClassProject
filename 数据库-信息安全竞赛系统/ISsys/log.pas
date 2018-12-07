@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, jpeg, DB, ADODB, DBTables, reg;
+  Dialogs, StdCtrls, ExtCtrls, jpeg, DB, ADODB, DBTables;
 
 type
   Tlogin = class(TForm)
@@ -31,7 +31,7 @@ var
 implementation
 
 {$R *.dfm}
-
+uses reg;
 
 var
 sql: String;
@@ -40,6 +40,12 @@ res: System.Int8;
 procedure Tlogin.okClick(Sender: TObject);
 begin
      //这里进行初步的用户名密码格式合法性验证
+     if pos('--', usr.Text)+pos('''',usr.Text)>0 then
+     begin
+          Application.MessageBox('Don''t be evil!','Warning!', MB_ICONWARNING);
+          exit;
+     end;
+      //传入数据库进行查询
       query.SQL.Clear;
       sql := 'select dbo.checkuser("' +  usr.Text + '", "' + psd.Text + '")';
       query.SQL.Add('select dbo.checkuser(:usr, :psd)');
@@ -64,6 +70,10 @@ end;
 
 procedure Tlogin.toRegClick(Sender: TObject);
 begin
+    usr.Clear;
+    psd.Clear;
+    login.Hide;
     regist.ShowModal;
+    //usr.SetFocus;
 end;
 end.

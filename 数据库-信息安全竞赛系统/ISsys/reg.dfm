@@ -1520,6 +1520,7 @@ object regist: Tregist
     Width = 121
     Height = 21
     TabOrder = 1
+    OnExit = usrExit
   end
   object email: TEdit
     Left = 96
@@ -1527,6 +1528,7 @@ object regist: Tregist
     Width = 121
     Height = 21
     TabOrder = 2
+    OnExit = emailExit
   end
   object psd: TEdit
     Left = 96
@@ -1535,13 +1537,23 @@ object regist: Tregist
     Height = 21
     DoubleBuffered = False
     ParentDoubleBuffered = False
+    PasswordChar = '*'
     TabOrder = 3
+    OnExit = psdExit
   end
   object repsd: TEdit
     Left = 96
     Top = 168
     Width = 121
     Height = 21
+    PasswordChar = '*'
     TabOrder = 4
+    OnExit = repsdExit
+  end
+  object proc: TADOStoredProc
+    Connection = login.db
+    Parameters = <>
+    Left = 584
+    Top = 312
   end
 end
